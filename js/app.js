@@ -123,7 +123,7 @@ function addFoodPlateOrder(product) {
 			customer.order = [...order, product];
 		}
 	} else {
-		console.log('No es mayor a 0');
+        const result = order.filter(item => item.id !== product.id);
+        customer.order = [...result];
 	}
-	console.log(customer.order);
 }
