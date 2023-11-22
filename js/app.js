@@ -5,10 +5,10 @@ let customer = {
 };
 
 const categories = {
-    1: 'meal',
-    2: 'Drink',
-    3: 'Dessert',
-}
+	1: 'meal',
+	2: 'Drink',
+	3: 'Dessert',
+};
 
 const btnSaveCustomer = document.querySelector('#saveCustomer');
 btnSaveCustomer.addEventListener('click', saveCustomer);
@@ -53,60 +53,77 @@ function showSections() {
 }
 
 function getFoodPlates() {
-    const url = 'http://localhost:3000/foodPlates';
-    
-    fetch(url)
-        .then(response => response.json())
-        .then(data => showFoodPlates(data))
-        .catch(error => console.log(error));
+	const url = 'http://localhost:3000/foodPlates';
+
+	fetch(url)
+		.then(response => response.json())
+		.then(data => showFoodPlates(data))
+		.catch(error => console.log(error));
 }
 
-function showFoodPlates(foodPlates) { 
-    const content = document.querySelector('#foodPlates .content');
+function showFoodPlates(foodPlates) {
+	const content = document.querySelector('#foodPlates .content');
 
-    foodPlates.forEach(foodPlate => { 
-        const { id, name, price, category } = foodPlate;
+	foodPlates.forEach(foodPlate => {
+		const { id, name, price, category } = foodPlate;
 
-        const row = document.createElement('DIV');
-        row.classList.add('row', 'py-3', 'border-top');
+		const row = document.createElement('DIV');
+		row.classList.add('row', 'py-3', 'border-top');
 
-        const foodPlateName = document.createElement('DIV');
-        foodPlateName.classList.add('col-md-4',);
-        foodPlateName.textContent = name;
+		const foodPlateName = document.createElement('DIV');
+		foodPlateName.classList.add('col-md-4');
+		foodPlateName.textContent = name;
 
-        const foodPlatePrice = document.createElement('DIV');
-        foodPlatePrice.classList.add('col-md-3', 'fw-bold');
-        foodPlatePrice.textContent = `$${price}`;
+		const foodPlatePrice = document.createElement('DIV');
+		foodPlatePrice.classList.add('col-md-3', 'fw-bold');
+		foodPlatePrice.textContent = `$${price}`;
 
-        const foodPlateCategory = document.createElement('DIV');
-        foodPlateCategory.classList.add('col-md-3');
-        foodPlateCategory.textContent = categories[category];
+		const foodPlateCategory = document.createElement('DIV');
+		foodPlateCategory.classList.add('col-md-3');
+		foodPlateCategory.textContent = categories[category];
 
-        const foodPlateOrder = document.createElement('INPUT');
-        foodPlateOrder.classList.add('form-control');
-        foodPlateOrder.type = 'number';
-        foodPlateOrder.min = 0;
-        foodPlateOrder.value = 0;
-        foodPlateOrder.id = `foodPlate-${id}`;
+		const foodPlateOrder = document.createElement('INPUT');
+		foodPlateOrder.classList.add('form-control');
+		foodPlateOrder.type = 'number';
+		foodPlateOrder.min = 0;
+		foodPlateOrder.value = 0;
+		foodPlateOrder.id = `foodPlate-${id}`;
 
-        foodPlateOrder.onchange = function () { 
-            const quantity = parseInt(foodPlateOrder.value);
-            addFoodPlateOrder({...foodPlate, quantity});
-        }
+		foodPlateOrder.onchange = function () {
+			const quantity = parseInt(foodPlateOrder.value);
+			addFoodPlateOrder({ ...foodPlate, quantity });
+		};
 
-        const foodPlateOrderContainer = document.createElement('DIV');
-        foodPlateOrderContainer.classList.add('col-md-2');
-        foodPlateOrderContainer.appendChild(foodPlateOrder);
+		const foodPlateOrderContainer = document.createElement('DIV');
+		foodPlateOrderContainer.classList.add('col-md-2');
+		foodPlateOrderContainer.appendChild(foodPlateOrder);
 
-        row.appendChild(foodPlateName);
-        row.appendChild(foodPlatePrice);
-        row.appendChild(foodPlateCategory);
-        row.appendChild(foodPlateOrderContainer);
+		row.appendChild(foodPlateName);
+		row.appendChild(foodPlatePrice);
+		row.appendChild(foodPlateCategory);
+		row.appendChild(foodPlateOrderContainer);
 
-        content.appendChild(row);
-    });
+		content.appendChild(row);
+	});
 }
 
 function addFoodPlateOrder(product) {
-    console.log(product);
+	let { order } = customer;
+
+	if (product.quantity > 0) {
+		if (order.some(item => item.id === product.id)) {
+			const orderUpdated = order.map(item => {
+				if (item.id === product.id) {
+					item.quantity = product.quantity;
+				}
+				return item;
+			});
+			customer.order = [...orderUpdated];
+		} else {
+			customer.order = [...order, product];
+		}
+	} else {
+		console.log('No es mayor a 0');
+	}
+	console.log(customer.order);
 }
