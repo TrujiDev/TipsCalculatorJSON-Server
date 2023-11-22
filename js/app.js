@@ -79,9 +79,21 @@ function showFoodPlates(foodPlates) {
         foodPlateCategory.classList.add('col-md-3');
         foodPlateCategory.textContent = categories[category];
 
+        const foodPlateOrder = document.createElement('INPUT');
+        foodPlateOrder.classList.add('form-control');
+        foodPlateOrder.type = 'number';
+        foodPlateOrder.min = 0;
+        foodPlateOrder.value = 0;
+        foodPlateOrder.id = `foodPlate-${id}`;
+
+        const foodPlateOrderContainer = document.createElement('DIV');
+        foodPlateOrderContainer.classList.add('col-md-2');
+        foodPlateOrderContainer.appendChild(foodPlateOrder);
+
         row.appendChild(foodPlateName);
         row.appendChild(foodPlatePrice);
         row.appendChild(foodPlateCategory);
+        row.appendChild(foodPlateOrderContainer);
 
         content.appendChild(row);
     });
