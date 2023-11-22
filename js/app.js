@@ -44,6 +44,9 @@ function saveCustomer() {
 	getFoodPlates();
 }
 
+/**
+ * Shows hidden sections by removing the 'd-none' class from them.
+ */
 function showSections() {
 	const hideSections = document.querySelectorAll('.d-none');
 	hideSections.forEach(section => section.classList.remove('d-none'));
@@ -86,6 +89,11 @@ function showFoodPlates(foodPlates) {
         foodPlateOrder.value = 0;
         foodPlateOrder.id = `foodPlate-${id}`;
 
+        foodPlateOrder.onchange = function () { 
+            const quantity = parseInt(foodPlateOrder.value);
+            addFoodPlateOrder({...foodPlate, quantity});
+        }
+
         const foodPlateOrderContainer = document.createElement('DIV');
         foodPlateOrderContainer.classList.add('col-md-2');
         foodPlateOrderContainer.appendChild(foodPlateOrder);
@@ -97,4 +105,8 @@ function showFoodPlates(foodPlates) {
 
         content.appendChild(row);
     });
+}
+
+function addFoodPlateOrder(product) {
+    console.log(product);
 }
