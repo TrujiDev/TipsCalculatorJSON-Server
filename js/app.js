@@ -310,8 +310,59 @@ function tipForm() {
 	heading.classList.add('my-4', 'text-center');
 	heading.textContent = 'Tip';
 
+	const tip10 = document.createElement('INPUT');
+	tip10.type = 'radio';
+	tip10.name = 'tip';
+	tip10.value = '10';
+	tip10.classList.add('form-check-input');
+
+	const tip10Label = document.createElement('LABEL');
+	tip10Label.textContent = '10%';
+	tip10Label.classList.add('form-check-label');
+
+	const tip10Div = document.createElement('DIV');
+	tip10Div.classList.add('form-check');
+
+	const tip25 = document.createElement('INPUT');
+	tip25.type = 'radio';
+	tip25.name = 'tip';
+	tip25.value = '25';
+	tip25.classList.add('form-check-input');
+
+	const tip25Label = document.createElement('LABEL');
+	tip25Label.textContent = '25%';
+	tip25Label.classList.add('form-check-label');
+
+	const tip25Div = document.createElement('DIV');
+	tip25Div.classList.add('form-check');
+
+	const tip50 = document.createElement('INPUT');
+	tip50.type = 'radio';
+	tip50.name = 'tip';
+	tip50.value = '50';
+	tip50.classList.add('form-check-input');
+
+	const tip50Label = document.createElement('LABEL');
+	tip50Label.textContent = '50%';
+	tip50Label.classList.add('form-check-label');
+
+	const tip50Div = document.createElement('DIV');
+	tip50Div.classList.add('form-check');
+
+	tip10Div.appendChild(tip10);
+	tip10Div.appendChild(tip10Label);
+
+	tip25Div.appendChild(tip25);
+	tip25Div.appendChild(tip25Label);
+
+	tip50Div.appendChild(tip50);
+	tip50Div.appendChild(tip50Label);
+
 	formDiv.appendChild(heading);
+	formDiv.appendChild(tip10Div);
+	formDiv.appendChild(tip25Div);
+	formDiv.appendChild(tip50Div);
 	tipForm.appendChild(formDiv);
-	
+
 	content.appendChild(tipForm);
 }
