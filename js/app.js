@@ -121,6 +121,10 @@ function showFoodPlates(foodPlates) {
 	});
 }
 
+/**
+ * Adds a food plate order to the customer's order list.
+ * @param {Object} product - The product to be added to the order.
+ */
 function addFoodPlateOrder(product) {
 	let { order } = customer;
 
@@ -149,6 +153,9 @@ function addFoodPlateOrder(product) {
 	}
 }
 
+/**
+ * Updates the summary section with the customer's table, time, and list of dishes consumed.
+ */
 function updateSummary() {
 	const content = document.querySelector('#summary .content');
 
@@ -267,6 +274,10 @@ function calculateSubtotal(price, quantity) {
 	return `$${price * quantity}`;
 }
 
+/**
+ * Deletes a product from the customer's order.
+ * @param {number} id - The ID of the product to be deleted.
+ */
 function deleteProduct(id) {
 	const { order } = customer;
 	const result = order.filter(item => item.id !== id);
@@ -297,6 +308,9 @@ function resetDOM() {
 	content.appendChild(text);
 }
 
+/**
+ * Creates and appends a tip form to the DOM.
+ */
 function tipForm() {
 	const content = document.querySelector('#summary .content');
 
@@ -370,6 +384,9 @@ function tipForm() {
 	content.appendChild(tipForm);
 }
 
+/**
+ * Calculates the tip amount and total bill based on the customer's order.
+ */
 function calculateTip() {
 	const { order } = customer;
 	let subtotal = 0;
@@ -384,4 +401,59 @@ function calculateTip() {
 	const tip = ((subtotal * parseInt(tipSelect)) / 100).toFixed(2);
 
 	const total = (subtotal + parseFloat(tip)).toFixed(2);
+
+	showTotal(subtotal, tip, total);
+}
+
+/**
+ * Displays the subtotal, tip, and total amounts on the page.
+ * 
+ * @param {number} subtotal - The subtotal amount.
+ * @param {number} tip - The tip amount.
+ * @param {number} total - The total amount.
+ */
+function showTotal(subtotal, tip, total) {
+	const divTotal = document.createElement('DIV');
+	divTotal.classList.add('total-pay', 'my-3');
+
+	const subtotalElement = document.createElement('P');
+	subtotalElement.classList.add('fw-bold', 'fs-3', 'mt-4');
+	subtotalElement.textContent = `Subtotal: `;
+
+	const subtotalSpan = document.createElement('SPAN');
+	subtotalSpan.classList.add('fw-normal');
+	subtotalSpan.textContent = `$${subtotal}`;
+
+	const tipElement = document.createElement('P');
+	tipElement.classList.add('fw-bold', 'fs-3', 'mt-4');
+	tipElement.textContent = `Tip: `;
+
+	const tipSpan = document.createElement('SPAN');
+	tipSpan.classList.add('fw-normal');
+	tipSpan.textContent = `$${tip}`;
+
+	const totalElement = document.createElement('P');
+	totalElement.classList.add('fw-bold', 'fs-3', 'mt-4');
+	totalElement.textContent = `Total: `;
+
+	const totalSpan = document.createElement('SPAN');
+	totalSpan.classList.add('fw-normal');
+	totalSpan.textContent = `$${total}`;
+
+	const totalPayDiv = document.querySelector('.total-pay');
+
+	if (totalPayDiv) {
+		totalPayDiv.remove();
+	}
+
+	subtotalElement.appendChild(subtotalSpan);
+	tipElement.appendChild(tipSpan);
+	totalElement.appendChild(totalSpan);
+
+	divTotal.appendChild(subtotalElement);
+	divTotal.appendChild(tipElement);
+	divTotal.appendChild(totalElement);
+
+	const form = document.querySelector('.form > div');
+	form.appendChild(divTotal);
 }
