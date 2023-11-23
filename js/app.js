@@ -13,6 +13,12 @@ const categories = {
 const btnSaveCustomer = document.querySelector('#saveCustomer');
 btnSaveCustomer.addEventListener('click', saveCustomer);
 
+/**
+ * Saves the customer information and performs validation on the input fields.
+ * If any field is empty, it displays an error message.
+ * Otherwise, it updates the customer object with the table and time values,
+ * hides the modal form, and calls the showSections and getFoodPlates functions.
+ */
 function saveCustomer() {
 	const table = document.querySelector('#table').value;
 	const time = document.querySelector('#time').value;
@@ -52,6 +58,9 @@ function showSections() {
 	hideSections.forEach(section => section.classList.remove('d-none'));
 }
 
+/**
+ * Fetches food plates from the server and displays them.
+ */
 function getFoodPlates() {
 	const url = 'http://localhost:3000/foodPlates';
 
@@ -61,6 +70,11 @@ function getFoodPlates() {
 		.catch(error => console.log(error));
 }
 
+/**
+ * Renders the food plates on the webpage.
+ *
+ * @param {Array} foodPlates - An array of food plates to be displayed.
+ */
 function showFoodPlates(foodPlates) {
 	const content = document.querySelector('#foodPlates .content');
 
@@ -139,7 +153,7 @@ function updateSummary() {
 	const content = document.querySelector('#summary .content');
 
 	const summary = document.createElement('DIV');
-	summary.classList.add('col-md-6', 'card', 'py-5', 'px-3', 'shadow');
+	summary.classList.add('col-md-6', 'card', 'py-2', 'px-3', 'shadow');
 
 	const table = document.createElement('P');
 	table.classList.add('fw-bold');
@@ -223,14 +237,19 @@ function updateSummary() {
 		group.appendChild(listItem);
 	});
 
+	summary.appendChild(heading);
 	summary.appendChild(table);
 	summary.appendChild(time);
-	summary.appendChild(heading);
 	summary.appendChild(group);
 
 	content.appendChild(summary);
+
+	tipForm();
 }
 
+/**
+ * Removes all child elements from the 'content' element in the HTML document.
+ */
 function cleanHTML() {
 	const content = document.querySelector('#summary .content');
 	while (content.firstChild) {
@@ -238,6 +257,12 @@ function cleanHTML() {
 	}
 }
 
+/**
+ * Calculates the subtotal based on the price and quantity.
+ * @param {number} price - The price of the item.
+ * @param {number} quantity - The quantity of the item.
+ * @returns {string} The subtotal formatted as a string.
+ */
 function calculateSubtotal(price, quantity) {
 	return `$${price * quantity}`;
 }
@@ -259,6 +284,9 @@ function deleteProduct(id) {
 	input.value = 0;
 }
 
+/**
+ * Resets the DOM by adding a text element to the summary content.
+ */
 function resetDOM() {
 	const content = document.querySelector('#summary .content');
 
@@ -267,4 +295,23 @@ function resetDOM() {
 	text.textContent = 'Add order items';
 
 	content.appendChild(text);
+}
+
+function tipForm() {
+	const content = document.querySelector('#summary .content');
+
+	const tipForm = document.createElement('DIV');
+	tipForm.classList.add('col-md-6', 'form');
+
+	const formDiv = document.createElement('DIV');
+	formDiv.classList.add('card', 'py-2', 'px-3', 'shadow');
+
+	const heading = document.createElement('H3');
+	heading.classList.add('my-4', 'text-center');
+	heading.textContent = 'Tip';
+
+	formDiv.appendChild(heading);
+	tipForm.appendChild(formDiv);
+	
+	content.appendChild(tipForm);
 }
