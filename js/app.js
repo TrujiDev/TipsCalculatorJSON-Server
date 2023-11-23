@@ -123,7 +123,93 @@ function addFoodPlateOrder(product) {
 			customer.order = [...order, product];
 		}
 	} else {
-        const result = order.filter(item => item.id !== product.id);
-        customer.order = [...result];
+		const result = order.filter(item => item.id !== product.id);
+		customer.order = [...result];
+	}
+	cleanHTML();
+
+	updateSummary();
+}
+
+function updateSummary() {
+	const content = document.querySelector('#summary .content');
+
+	const summary = document.createElement('DIV');
+	summary.classList.add('col-md-6', 'card', 'py-5', 'px-3', 'shadow');
+
+	const table = document.createElement('P');
+	table.classList.add('fw-bold');
+	table.textContent = `Table: `;
+
+	const tableSpan = document.createElement('SPAN');
+	tableSpan.classList.add('fw-normal');
+	tableSpan.textContent = customer.table;
+
+	const time = document.createElement('P');
+	time.classList.add('fw-bold');
+	time.textContent = `time: `;
+
+	const timeSpan = document.createElement('SPAN');
+	timeSpan.classList.add('fw-normal');
+	timeSpan.textContent = customer.time;
+
+	table.appendChild(tableSpan);
+	time.appendChild(timeSpan);
+
+	const heading = document.createElement('H3');
+	heading.classList.add('my-4', 'text-center');
+	heading.textContent = 'Dishes consumed';
+
+	const group = document.createElement('UL');
+	group.classList.add('list-group');
+
+	const { order } = customer;
+	order.forEach(item => {
+        const { name, price, quantity, id } = item;
+        
+        const listItem = document.createElement('LI');
+        listItem.classList.add('list-group-item');
+
+        const nameElement = document.createElement('H4');
+        nameElement.textContent = name;
+
+        const quantityElement = document.createElement('P');
+        quantityElement.classList.add('fw-bold');
+        quantityElement.textContent = `Quantity: `;
+
+        const quantitySpan = document.createElement('SPAN');
+        quantitySpan.classList.add('fw-normal');
+        quantitySpan.textContent = quantity;
+        
+        const priceElement = document.createElement('SPAN');
+        priceElement.classList.add('fw-bold');
+        priceElement.textContent = `Price: `;
+
+        const priceSpan = document.createElement('SPAN');
+        priceSpan.classList.add('fw-normal');
+        priceSpan.textContent = `$${price}`;
+
+        quantityElement.appendChild(quantitySpan);
+        priceElement.appendChild(priceSpan);
+
+        listItem.appendChild(nameElement);
+        listItem.appendChild(quantityElement);
+        listItem.appendChild(priceElement);
+
+        group.appendChild(listItem);
+	});
+
+	summary.appendChild(table);
+	summary.appendChild(time);
+    summary.appendChild(heading);
+    summary.appendChild(group);
+
+	content.appendChild(summary);
+}
+
+function cleanHTML() {
+	const content = document.querySelector('#summary .content');
+	while (content.firstChild) {
+		content.removeChild(content.firstChild);
 	}
 }
