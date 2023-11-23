@@ -165,44 +165,55 @@ function updateSummary() {
 
 	const { order } = customer;
 	order.forEach(item => {
-        const { name, price, quantity, id } = item;
-        
-        const listItem = document.createElement('LI');
-        listItem.classList.add('list-group-item');
+		const { name, price, quantity, id } = item;
 
-        const nameElement = document.createElement('H4');
-        nameElement.textContent = name;
+		const listItem = document.createElement('LI');
+		listItem.classList.add('list-group-item');
 
-        const quantityElement = document.createElement('P');
-        quantityElement.classList.add('fw-bold');
-        quantityElement.textContent = `Quantity: `;
+		const nameElement = document.createElement('H4');
+		nameElement.classList.add('my-3');
+		nameElement.textContent = name;
 
-        const quantitySpan = document.createElement('SPAN');
-        quantitySpan.classList.add('fw-normal');
-        quantitySpan.textContent = quantity;
-        
-        const priceElement = document.createElement('SPAN');
-        priceElement.classList.add('fw-bold');
-        priceElement.textContent = `Price: `;
+		const quantityElement = document.createElement('P');
+		quantityElement.classList.add('fw-bold');
+		quantityElement.textContent = `Quantity: `;
 
-        const priceSpan = document.createElement('SPAN');
-        priceSpan.classList.add('fw-normal');
-        priceSpan.textContent = `$${price}`;
+		const quantitySpan = document.createElement('SPAN');
+		quantitySpan.classList.add('fw-normal');
+		quantitySpan.textContent = quantity;
 
-        quantityElement.appendChild(quantitySpan);
-        priceElement.appendChild(priceSpan);
+		const priceElement = document.createElement('P');
+		priceElement.classList.add('fw-bold');
+		priceElement.textContent = `Price: `;
 
-        listItem.appendChild(nameElement);
-        listItem.appendChild(quantityElement);
-        listItem.appendChild(priceElement);
+		const priceSpan = document.createElement('SPAN');
+		priceSpan.classList.add('fw-normal');
+		priceSpan.textContent = `$${price}`;
 
-        group.appendChild(listItem);
+		const subtotal = document.createElement('P');
+		subtotal.classList.add('fw-bold');
+		subtotal.textContent = `Subtotal: `;
+
+		const subtotalSpan = document.createElement('SPAN');
+		subtotalSpan.classList.add('fw-normal');
+		subtotalSpan.textContent = calculateSubtotal(price, quantity);
+
+		quantityElement.appendChild(quantitySpan);
+		priceElement.appendChild(priceSpan);
+		subtotal.appendChild(subtotalSpan);
+
+		listItem.appendChild(nameElement);
+		listItem.appendChild(quantityElement);
+		listItem.appendChild(priceElement);
+		listItem.appendChild(subtotal);
+
+		group.appendChild(listItem);
 	});
 
 	summary.appendChild(table);
 	summary.appendChild(time);
-    summary.appendChild(heading);
-    summary.appendChild(group);
+	summary.appendChild(heading);
+	summary.appendChild(group);
 
 	content.appendChild(summary);
 }
@@ -212,4 +223,8 @@ function cleanHTML() {
 	while (content.firstChild) {
 		content.removeChild(content.firstChild);
 	}
+}
+
+function calculateSubtotal(price, quantity) {
+	return `$${price * quantity}`;
 }
