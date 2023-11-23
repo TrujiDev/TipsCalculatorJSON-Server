@@ -315,6 +315,7 @@ function tipForm() {
 	tip10.name = 'tip';
 	tip10.value = '10';
 	tip10.classList.add('form-check-input');
+	tip10.onclick = calculateTip;
 
 	const tip10Label = document.createElement('LABEL');
 	tip10Label.textContent = '10%';
@@ -328,6 +329,7 @@ function tipForm() {
 	tip25.name = 'tip';
 	tip25.value = '25';
 	tip25.classList.add('form-check-input');
+	tip25.onclick = calculateTip;
 
 	const tip25Label = document.createElement('LABEL');
 	tip25Label.textContent = '25%';
@@ -341,6 +343,7 @@ function tipForm() {
 	tip50.name = 'tip';
 	tip50.value = '50';
 	tip50.classList.add('form-check-input');
+	tip50.onclick = calculateTip;
 
 	const tip50Label = document.createElement('LABEL');
 	tip50Label.textContent = '50%';
@@ -365,4 +368,20 @@ function tipForm() {
 	tipForm.appendChild(formDiv);
 
 	content.appendChild(tipForm);
+}
+
+function calculateTip() {
+	const { order } = customer;
+	let subtotal = 0;
+
+	order.forEach(item => {
+		const { price, quantity } = item;
+		subtotal += price * quantity;
+	});
+
+	const tipSelect = document.querySelector('input[name="tip"]:checked').value;
+
+	const tip = ((subtotal * parseInt(tipSelect)) / 100).toFixed(2);
+
+	const total = (subtotal + parseFloat(tip)).toFixed(2);
 }
