@@ -128,7 +128,11 @@ function addFoodPlateOrder(product) {
 	}
 	cleanHTML();
 
-	updateSummary();
+	if (customer.order.length) {
+		updateSummary();
+	} else {
+		resetDOM();
+	}
 }
 
 function updateSummary() {
@@ -199,7 +203,7 @@ function updateSummary() {
 		subtotalSpan.textContent = calculateSubtotal(price, quantity);
 
 		const deleteButton = document.createElement('BUTTON');
-		deleteButton.classList.add('btn', 'btn-danger', 'float-end');
+		deleteButton.classList.add('btn', 'btn-danger');
 		deleteButton.textContent = 'Delete dish';
 
 		deleteButton.onclick = function () {
@@ -244,5 +248,23 @@ function deleteProduct(id) {
 	customer.order = [...result];
 
 	cleanHTML();
-	updateSummary();
+
+	if (customer.order.length) {
+		updateSummary();
+	} else {
+		resetDOM();
+	}
+
+	const input = document.querySelector(`#foodPlate-${id}`);
+	input.value = 0;
+}
+
+function resetDOM() {
+	const content = document.querySelector('#summary .content');
+
+	const text = document.createElement('P');
+	text.classList.add('text-center');
+	text.textContent = 'Add order items';
+
+	content.appendChild(text);
 }
