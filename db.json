@@ -43,12 +43,6 @@
 			"category": 1
 		},
 		{
-			"id": 8,
-			"name": "Jugo de Naranja",
-			"price": 15,
-			"category": 2
-		},
-		{
 			"id": 9,
 			"name": "Tequila",
 			"price": 40,
