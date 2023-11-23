@@ -198,6 +198,14 @@ function updateSummary() {
 		subtotalSpan.classList.add('fw-normal');
 		subtotalSpan.textContent = calculateSubtotal(price, quantity);
 
+		const deleteButton = document.createElement('BUTTON');
+		deleteButton.classList.add('btn', 'btn-danger', 'float-end');
+		deleteButton.textContent = 'Delete dish';
+
+		deleteButton.onclick = function () {
+			deleteProduct(id);
+		};
+
 		quantityElement.appendChild(quantitySpan);
 		priceElement.appendChild(priceSpan);
 		subtotal.appendChild(subtotalSpan);
@@ -206,6 +214,7 @@ function updateSummary() {
 		listItem.appendChild(quantityElement);
 		listItem.appendChild(priceElement);
 		listItem.appendChild(subtotal);
+		listItem.appendChild(deleteButton);
 
 		group.appendChild(listItem);
 	});
@@ -227,4 +236,13 @@ function cleanHTML() {
 
 function calculateSubtotal(price, quantity) {
 	return `$${price * quantity}`;
+}
+
+function deleteProduct(id) {
+	const { order } = customer;
+	const result = order.filter(item => item.id !== id);
+	customer.order = [...result];
+
+	cleanHTML();
+	updateSummary();
 }
